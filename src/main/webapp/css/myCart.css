@@ -1,0 +1,18 @@
+@charset "UTF-8";
+.pics-row-6 {
+	width: 50px;
+	height: 360px;
+	float: left
+}
+#big-image-container {
+	width: 120px;
+	height: 120px;
+	float: left
+}
+.margin-bot-10 {
+	margin-bottom: 10px;
+}
+.square-50 {
+	width: 50px;
+	height: 50px;
+}

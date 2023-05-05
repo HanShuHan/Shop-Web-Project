@@ -1,0 +1,24 @@
+@charset "UTF-8";
+
+#login-div {
+	margin-top: 50px;
+	width: 400px;
+}
+.text-align-center {
+	text-align: center;
+}
+.text-align-right {
+	text-align: right;
+}
+.text-align-left {
+	text-align: left;
+}
+.color-green {
+	color: green;
+}
+.font-weight-600 {
+	font-weight: 600;
+}
+.padding-10 {
+	padding: 10px;
+}
