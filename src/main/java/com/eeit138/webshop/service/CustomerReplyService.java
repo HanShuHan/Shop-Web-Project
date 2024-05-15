@@ -23,7 +23,7 @@ public class CustomerReplyService {
 
 	
 	public void save(CustomerBean reply) {
-		dao.save(reply);
+		dao.saveAndFlush(reply);
 	}
 	
 	

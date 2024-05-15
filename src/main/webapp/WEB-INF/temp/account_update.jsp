@@ -148,7 +148,7 @@ $(function() {
 	<!-- 帳戶主區塊 -->
 		<form:form action="${contextRoot}/updateAc"
 										modelAttribute="AccountBean" method="post"
-										enctype="multipart/form-data" onsubmit="#">
+										enctype="multipart/form-data">
 		<div class="container emp-profile">
 		<br>
                 <div class="row">

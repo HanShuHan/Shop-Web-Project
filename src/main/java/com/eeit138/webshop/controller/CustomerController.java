@@ -1,6 +1,8 @@
 package com.eeit138.webshop.controller;
 
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -27,10 +29,11 @@ public class CustomerController {
 	private AccountService dao;
 	
 	@PostMapping(value="/cusReply")
-	public ModelAndView cusReply(ModelAndView mav,@ModelAttribute(name = "reply") CustomerBean reply, @RequestParam(name = "id") Integer id) {
-		AccountBean Account = dao.findById(id);
-		System.out.println(Account.getAname());
-		service.save(reply);
+	public ModelAndView cusReply(ModelAndView mav,@ModelAttribute(name = "newReply") CustomerBean newReply, @RequestParam(name = "id") Integer id) {
+		newReply.setId(newReply.getId() + 1);
+		newReply.setAdded(new Date());
+		service.save(newReply);
+		
 		mav.setViewName("redirect:/viewReply?id="+id);
 		
 		return mav;
@@ -42,9 +45,11 @@ public class CustomerController {
 		CustomerBean reply = service.findById(id);
 		int acid = reply.getAccountid();
 		AccountBean Account = dao.findById(acid);
+		
 		mav.getModel().put("reply", reply);
 		mav.getModel().put("ac", Account);
 		mav.setViewName("b_reply_single");
+		
 		return mav;
 	}
 	
@@ -54,9 +59,12 @@ public class CustomerController {
 	
 	@PostMapping("/b_reply_single")
 	public ModelAndView editMessage(ModelAndView mav, @ModelAttribute(name="reply") CustomerBean reply) {
+		reply.setReplyadded(new Date());
 		service.save(reply);
+		
 		mav.getModel().put("id", reply.getId());
 		mav.setViewName("redirect:/b_reply_single");
+		
 		return mav;
 		
 	}

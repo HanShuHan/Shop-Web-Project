@@ -28,7 +28,7 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public AccountBean save(AccountBean ac) {
-		return dao.save(ac);
+		return dao.saveAndFlush(ac);
 	}
 
 	@Override

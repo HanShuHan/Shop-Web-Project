@@ -59,50 +59,44 @@
 			</a>
 
 			<!-- 導航欄 -->
-    <div class="sidebar">
-      <!-- 使用者顯示 -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src='<c:url value="/showImage/${sessionScope.adminId}"/>' class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
-          <a href="${contextRoot}/index_b" class="d-block">${sessionScope.ad}</a>
-        </div>
-      </div>
+			<div class="sidebar">
+				<!-- 使用者顯示 -->
+				<div class="user-panel mt-3 pb-3 mb-3 d-flex">
+					<div class="image">
+						<img src='<c:url value="/showImage/${sessionScope.adminId}"/>'
+							class="img-circle elevation-2" alt="User Image">
+					</div>
+					<div class="info">
+						<a href="${contextRoot}/index_b" class="d-block">${sessionScope.ad}</a>
+					</div>
+				</div>
 
-      <!-- 導航菜單 -->
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <li class="nav-item">
-            <a href="${contextRoot}/badindex" class="nav-link">管理員/權限</a>
-          </li>
-          <li class="nav-item">
-            <a href="${contextRoot}/bacindex" class="nav-link">會員管理</a>
-          </li>
-          <li class="nav-item">
-            <a href="${contextRoot}/bprindex" class="nav-link">商品管理</a>
-          </li>
-          <li class="nav-item">
-            <a href="${contextRoot}/borindex" class="nav-link">訂單管理</a>
-          </li>
-          <li class="nav-item">
-            <a href="${contextRoot}/viewDiscounts" class="nav-link">活動管理</a>
-          </li>
-          <li class="nav-item">
-            <a href="${contextRoot}/barindex" class="nav-link">文章管理</a>
-          </li>
-          <li class="nav-item">
-            <a href="${contextRoot}/breindex" class="nav-link">訊息管理</a>
-          </li>
-          <li class="nav-item">
-          	<a href="${contextRoot}/adlogout" class="nav-link">登出</a>
-          </li>
-        </ul>
-      </nav>
-      <!-- 菜單結束 -->
-    </div>   
-  </aside>
-  <!-- 左側導航結束 -->
+				<!-- 導航菜單 -->
+				<nav class="mt-2">
+					<ul class="nav nav-pills nav-sidebar flex-column"
+						data-widget="treeview" role="menu" data-accordion="false">
+						<li class="nav-item"><a href="${contextRoot}/badindex"
+							class="nav-link">管理員/權限</a></li>
+						<li class="nav-item"><a href="${contextRoot}/bacindex"
+							class="nav-link">會員管理</a></li>
+						<li class="nav-item"><a href="${contextRoot}/bprindex"
+							class="nav-link">商品管理</a></li>
+						<li class="nav-item"><a href="${contextRoot}/borindex"
+							class="nav-link">訂單管理</a></li>
+						<li class="nav-item"><a href="${contextRoot}/viewDiscounts"
+							class="nav-link">活動管理</a></li>
+						<li class="nav-item"><a href="${contextRoot}/barindex"
+							class="nav-link">文章管理</a></li>
+						<li class="nav-item"><a href="${contextRoot}/breindex"
+							class="nav-link">訊息管理</a></li>
+						<li class="nav-item"><a href="${contextRoot}/adlogout"
+							class="nav-link">登出</a></li>
+					</ul>
+				</nav>
+				<!-- 菜單結束 -->
+			</div>
+		</aside>
+		<!-- 左側導航結束 -->
 		<!-- 內容 -->
 		<div class="content-wrapper">
 			<!-- 標頭 -->
@@ -152,21 +146,25 @@
 										</div>
 										<div class="media py-5">
 											<div class="media-body">
-												<h5 class="mt-0">${ac.ac}</h5>
-												<h6 class="mt-0">${reply.title}</h6>
-												<span>送出時間：<fmt:formatDate
-														pattern="yyyy/MM/dd HH:mm:ss" value="${reply.added}"></fmt:formatDate></span>
-												<p class="mt-2">${reply.message}</p>
+												<h6 class="mt-0">${ac.ac}</h6>
+												<h5 class="mt-3">${reply.title}</h5>
+												<span class="mt-0">${reply.message}</span>
+												<p class="mt-3">
+													送出時間：
+													<fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss"
+														value="${reply.added}"></fmt:formatDate>
+												</p>
 												<div class="media mt-5">
 													<div class="media-body">
-														<h5 class="mt-0">客服人員</h5>
+														<h6 class="mt-0">客服人員</h6>
+														<h5 class="mt-3">${reply.title}</h5>
 														<c:choose>
 															<c:when test="${reply.replymessage == null}">
-																<p class="mt-2">尚未回覆</p>
+																<p class="mt-0">尚未回覆</p>
 															</c:when>
 															<c:otherwise>
-																<p class="mt-2">${reply.replymessage}</p>
-																<p class="mt-2">
+																<span class="mt-2">${reply.replymessage}</span>
+																<p class="mt-3">
 																	回復於：
 																	<fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss"
 																		value="${reply.replyadded}"></fmt:formatDate>
@@ -176,7 +174,9 @@
 													</div>
 												</div>
 											</div>
-										</div><a class="btn btn-sm btn-primary" href="${contextRoot}/breindex">返回</a>
+										</div>
+										<a class="btn btn-sm btn-primary"
+											href="${contextRoot}/breindex">返回</a>
 									</div>
 								</div>
 							</div>

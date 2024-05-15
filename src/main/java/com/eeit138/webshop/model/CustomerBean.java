@@ -21,7 +21,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @Entity
 @Table(name="CustomerReply")
 public class CustomerBean implements Serializable {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -4286861530663151828L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
@@ -93,17 +94,16 @@ public class CustomerBean implements Serializable {
 		this.title = titl;
 	}
 
-	@PrePersist // 當 Entity 狀態要變成 Persistent 的時候，做以下方法
-	public void onCreate() {
-		if(added == null) {
-			added = new Date();
-		}
-		replyadded = new Date();
-	}
-	@PreUpdate
-	public void onUpdate() {
-		replyadded = new Date();
-	}
+//	@PrePersist // 當 Entity 狀態要變成 Persistent 的時候，做以下方法
+//	public void onCreate() {
+//		if(added == null) {
+//			added = new Date();
+//		}
+//	}
+//	@PreUpdate
+//	public void onUpdate() {
+//		replyadded = new Date();
+//	}
 	
 	public Date getUpdatetime() {
 		return replyadded;

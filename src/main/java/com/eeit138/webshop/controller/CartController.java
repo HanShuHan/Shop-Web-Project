@@ -52,8 +52,8 @@ public class CartController {
 	public int addToCart(@RequestBody ProductDto productDto,
 			HttpServletRequest request) {
 		
-		Integer productId = productDto.getId();
 		Integer userId = productDto.getUserId();
+		Integer productId = productDto.getId();
 		ProductBean product = productService.findById(productId);
 		
 		if(cartListService.findByProductIdAndAccountId(productId, userId) == null) {
@@ -97,9 +97,9 @@ public class CartController {
 	@GetMapping("/myCartList/accountId/{id}")
 	public ModelAndView myCartListPage(@PathVariable(name = "id") Integer id, ModelAndView mv) {
 		
-		mv.setViewName("cart");
 		mv.getModel().put("cartLists", cartListService.findByAccountId(id));
 		mv.getModel().put("OrderDetail", new OrderDetail());
+		mv.setViewName("cart");
 		
 		return mv;
 	}

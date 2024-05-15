@@ -465,10 +465,11 @@ public class PageController {
 	
 	@GetMapping("/breindex")
 	public ModelAndView b_reply_index(ModelAndView mv, HttpServletRequest request) {
-		List<CustomerBean> replys;
-		replys = customerReplyService.findAll();
+		List<CustomerBean> replys = customerReplyService.findAll();
+		
 		mv.getModel().put("replys", replys);		
 		mv.setViewName("/b_reply_index");
+		
 		return mv;
 	}
 	
@@ -492,10 +493,12 @@ public class PageController {
 	
 	@GetMapping("/viewReply")
 	public ModelAndView viewReply(ModelAndView mav, @RequestParam(name = "id") Integer id) {
-		mav.setViewName("account_contact");
-		mav.getModel().put("reply", new CustomerBean());
 		List<CustomerBean> replys = customerReplyService.findByAcidOrderByAddedDesc(id);
+		
+		mav.getModel().put("newReply", new CustomerBean());
 		mav.getModel().put("replys", replys);
+		mav.setViewName("account_contact");
+		
 		return mav;
 	}
 	

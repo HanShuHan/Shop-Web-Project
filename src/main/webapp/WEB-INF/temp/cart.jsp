@@ -50,13 +50,14 @@
 <script src="${contextRoot}/js/shop.js"></script>
 <script src="${contextRoot}/js/cart-pages/myCart.js"></script>
 <style>
-	.menu {
-		font-size: 20px;
-	}
-		#big-head, #cart-img {
-		width: 20px;
-		height: 20px;
-	}
+.menu {
+	font-size: 20px;
+}
+
+#big-head, #cart-img {
+	width: 20px;
+	height: 20px;
+}
 </style>
 </head>
 <body>
@@ -77,39 +78,35 @@
 					<ul class="menu mt-2">
 						<li><a href="${contextRoot}/">Home</a></li>
 						<li><a href="${contextRoot}/about">About</a></li>
-                        <li><a href="${contextRoot}/blog">Blog</a></li>
-						<li><a href="${contextRoot}/shop">Products</a>
-                            <label for="drop-2" class="toggle">Products</label>
-                            <input type="checkbox" id="drop-2" />
-                            <ul>
-                                <li><a href="${contextRoot}/shop">All</a></li>
-                            	<c:forEach var="category" items="${categoriesList}" varStatus="status">
-	                                <li>
-	                                	<a href="${contextRoot}/shop?type${status.count}=${category.type}">
-	                                		<c:out value="${category.type}"/>
-	                                	</a>
-	                                </li>
-                            	</c:forEach>
-                            </ul>
-						</li>
+						<li><a href="${contextRoot}/blog">Blog</a></li>
+						<li><a href="${contextRoot}/shop">Products</a> <label
+							for="drop-2" class="toggle">Products</label> <input
+							type="checkbox" id="drop-2" />
+							<ul>
+								<li><a href="${contextRoot}/shop">All</a></li>
+								<c:forEach var="category" items="${categoriesList}"
+									varStatus="status">
+									<li><a
+										href="${contextRoot}/shop?type${status.count}=${category.type}">
+											<c:out value="${category.type}" />
+									</a></li>
+								</c:forEach>
+							</ul></li>
 						<li><a href="${contextRoot}/contact">Contact</a></li>
-						<li>
-						<c:choose>
+						<li><c:choose>
 								<c:when test="${sessionScope.accountId == null}">
 									<a href="${contextRoot}/register"> Register/Login </a>
 								</c:when>
 								<c:otherwise>
-									<a href="${contextRoot}/account?id=${sessionScope.accountId}">										
+									<a href="${contextRoot}/account?id=${sessionScope.accountId}">
 										<img id="cart-img" src="${contextRoot}/css/images/member.png"
-										width="9"
-										data-user_id="${sessionScope.accountId}"
-										data-web_url="${pageContext.request.contextPath}">
-										<span><c:out value="${sessionScope.ac}" /></span>
+										width="9" data-user_id="${sessionScope.accountId}"
+										data-web_url="${pageContext.request.contextPath}"> <span><c:out
+												value="${sessionScope.ac}" /></span>
 									</a>
 									<a href="${contextRoot}/logout"><span>|LogOut</span></a>
 								</c:otherwise>
-							</c:choose>
-						</li>
+							</c:choose></li>
 						<li class="active"><c:choose>
 								<c:when test="${sessionScope.accountId == null}">
 									<a href="#"> <img id="cart-img"
@@ -150,52 +147,54 @@
 		<div class="container py-md-3">
 			<h3 class="tittle text-center">購物車</h3>
 			<c:if test="${sessionScope.numberInCart > 0}">
-			<div id="all-column" class="row justify-content-center">
-				<form:form method="POST" modelAttribute="OrderDetail" action="${contextRoot}/myCartList">
-					<c:forEach items="${cartLists}" var="cartList" varStatus="s">
-						<div class="container border" style="width:400 px;"
-							data-cart_list_id="${cartList.listId}"
-							data-unit_price="${cartList.product.price}">
-							<div id="big-image-container">
-								<img width="50px" height="50px"
-									src='<c:url value="/showImage1/${cartList.product.productId}"/>'
-									alt="" id="big-image">
+				<div id="all-column" class="row justify-content-center">
+					<form:form method="POST" modelAttribute="OrderDetail"
+						action="${contextRoot}/myCartList">
+						<c:forEach items="${cartLists}" var="cartList" varStatus="s">
+							<div class="container border" style="width: 400 px;"
+								data-cart_list_id="${cartList.listId}"
+								data-unit_price="${cartList.product.price}">
+								<div id="big-image-container">
+									<img width="50px" height="50px"
+										src='<c:url value="/showImage1/${cartList.product.productId}"/>'
+										alt="" id="big-image">
+								</div>
+								<span>名稱: ${cartList.product.name}</span>&nbsp;&nbsp;&nbsp; 價錢:
+								<span style="color: red;">${cartList.product.price}</span> <br>
+								<label for="">數量:</label> <select class="quantity">
+									<c:forEach var="optNum" begin="1" end="9">
+										<c:choose>
+											<c:when test="${cartList.quantity == optNum}">
+												<option value="${optNum}" selected>${optNum}</option>
+											</c:when>
+											<c:otherwise>
+												<option value="${optNum}">${optNum}</option>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+								</select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<button type="button" class="delete_one btn btn-danger"
+									data-product_name="${cartList.product.name}">
+									<img src="${contextRoot}/css/images/trash-fill.svg">
+								</button>
+								<!-- 							<div class="container" style="width:400 px; left:260px; position:relative; top:-60px;"> -->
+								<br>
+								<br>小計: <span class="subtotal" style="color: blue;">${cartList.product.price}</span>
+								<!-- 							</div> -->
 							</div>
-							<span>名稱: ${cartList.product.name}</span>&nbsp;&nbsp;&nbsp;
-							價錢: <span style="color: red;">${cartList.product.price}</span>
 							<br>
-							<label for="">數量:</label>
-							<select class="quantity">
-								<c:forEach var="optNum" begin="1" end="9">
-									<c:choose>
-										<c:when test="${cartList.quantity == optNum}">
-											<option value="${optNum}" selected>${optNum}</option>
-										</c:when>
-										<c:otherwise>
-											<option value="${optNum}">${optNum}</option>
-										</c:otherwise>
-									</c:choose>
-								</c:forEach>
-							</select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<button type="button" class="delete_one btn btn-danger"
-								data-product_name="${cartList.product.name}">
-								<img src="${contextRoot}/css/images/trash-fill.svg">
-							</button>
-<!-- 							<div class="container" style="width:400 px; left:260px; position:relative; top:-60px;"> -->
-								<br><br>小計: <span class="subtotal" style="color: blue;">${cartList.product.price}</span>
-<!-- 							</div> -->
+						</c:forEach>
+						<div class="container" style="text-align: center;">
+							<input type="submit" class="btn btn-warning" value="結帳" />
 						</div>
 						<br>
-					</c:forEach>
+					</form:form>
 					<div class="container" style="text-align: center;">
-						<input type="submit" class="btn btn-warning" value="結帳" />
+						<br> <span>總價: 新台幣 <sapn id="total"
+								style="color: red;"></sapn> 元
+						</span>
 					</div>
-					<br>
-				</form:form>	
-				<div class="container" style="text-align: center;"><br>
-					<span>總價: 新台幣 <sapn id="total" style="color: red;"></sapn> 元</span>
 				</div>
-			</div>
 			</c:if>
 		</div>
 
