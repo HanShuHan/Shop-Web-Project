@@ -119,64 +119,64 @@
 							<div class="card">
 								<div class="card-body">
 									<div class="speak px-lg-5">
+
 										<div class="single-form-left">
-											<!-- contact form grid -->
-											<div class="contact-single">
-												<h3>
-													<span class="sub-tittle"></span>回覆顧客留言
-												</h3>
-												<form:form class="form"
-													action="${contextRoot}/b_reply_single?id=${reply.id}"
-													modelAttribute="reply" method="post">
-													<form:input type="hidden" path="id" />
-													<form:input type="hidden" path="message" />
-													<form:input type="hidden" path="title" />
-													<form:input type="hidden" path="added" />
-													<form:input type="hidden" path="accountid" />
-													<div class="form-group">
-														<label for="contactcomment">回復內容：</label>
-														<form:textarea path="replymessage"
-															class="form-control border" rows="5" required="required"></form:textarea>
-													</div>
-													<button type="submit"
-														class="mt-3 btn btn-success btn-block py-3">送出</button>
-												</form:form>
-											</div>
-											<!--  //contact form grid ends here -->
+
+											<a class="btn btn-sm btn-primary"
+												href="${contextRoot}/breindex">返回</a>
+
 										</div>
+
 										<div class="media py-5">
 											<div class="media-body">
 												<h6 class="mt-0">${ac.ac}</h6>
-												<h5 class="mt-3">${reply.title}</h5>
 												<span class="mt-0">${reply.message}</span>
-												<p class="mt-3">
+												<p class="mt-3 text-gray">
 													送出時間：
 													<fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss"
 														value="${reply.added}"></fmt:formatDate>
 												</p>
-												<div class="media mt-5">
-													<div class="media-body">
-														<h6 class="mt-0">客服人員</h6>
-														<h5 class="mt-3">${reply.title}</h5>
-														<c:choose>
-															<c:when test="${reply.replymessage == null}">
-																<p class="mt-0">尚未回覆</p>
-															</c:when>
-															<c:otherwise>
-																<span class="mt-2">${reply.replymessage}</span>
-																<p class="mt-3">
-																	回復於：
-																	<fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss"
-																		value="${reply.replyadded}"></fmt:formatDate>
-																</p>
-															</c:otherwise>
-														</c:choose>
+
+												<c:if test="${not empty reply.replymessage}">
+
+													<div class="media mt-5 float-right">
+														<div class="media-body">
+															<h6 class="mt-0">客服人員</h6>
+															<span class="mt-2">${reply.replymessage}</span>
+															<p class="mt-3 text-gray">
+																回復於：
+																<fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss"
+																	value="${reply.replyadded}"></fmt:formatDate>
+															</p>
+														</div>
 													</div>
-												</div>
+
+												</c:if>
+
 											</div>
 										</div>
-										<a class="btn btn-sm btn-primary"
-											href="${contextRoot}/breindex">返回</a>
+
+										<!-- contact form grid -->
+										<div class="contact-single">
+											<h3 class="text-center">回覆留言</h3>
+											<form:form class="form"
+												action="${contextRoot}/b_reply_single?id=${reply.id}"
+												modelAttribute="reply" method="post">
+												<form:input type="hidden" path="id" />
+												<form:input type="hidden" path="message" />
+												<form:input type="hidden" path="title" />
+												<form:input type="hidden" path="added" />
+												<form:input type="hidden" path="accountid" />
+												<div class="form-group">
+													<form:textarea path="replymessage"
+														class="form-control border" rows="5" required="required"></form:textarea>
+												</div>
+												<button type="submit"
+													class="mt-3 btn btn-success btn-block py-3">送出</button>
+											</form:form>
+										</div>
+										<!--  //contact form grid ends here -->
+
 									</div>
 								</div>
 							</div>

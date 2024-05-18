@@ -52,13 +52,23 @@ public class AccountController {
 	}
 
 	@PostMapping(value = "/register")
-	public ModelAndView register(@ModelAttribute(name = "accountBean") AccountBean account, ModelAndView mav) {
+	public String register(@ModelAttribute(name = "accountBean") AccountBean account, HttpSession session) {
 
 		dao.save(account);
-		String nameForLogin = account.getAc();
-		String passwordForLogin = account.getPw();
-		mav.setViewName("redirect:/register?nameForLogin=" + nameForLogin + "&passwordForLogin=" + passwordForLogin);
-		return mav;
+		
+//		String nameForLogin = account.getAc();
+//		String passwordForLogin = account.getPw();
+//		mav.setViewName("redirect:/register?nameForLogin=" + nameForLogin + "&passwordForLogin=" + passwordForLogin);
+		
+		session.setAttribute("accountId", account.getAcid());
+		session.setAttribute("ac", account.getAc());
+		session.setAttribute("status", "ok");
+		//
+		int quantityInCart = cartListService.findAllByAccountId(account.getAcid()).stream()
+				.reduce(0, (quantity, i) -> quantity += i.getQuantity(), Integer::sum);
+		session.setAttribute("numberInCart", quantityInCart);
+		
+		return "redirect:/index";
 	}
 
 	@PostMapping(value = "/login")
@@ -78,8 +88,9 @@ public class AccountController {
 				session.setAttribute("ac", ac);
 				session.setAttribute("status", "ok");
 				//
-				int numberInCart = cartListService.findByAccountId(ckac.getAcid()).size();
-				session.setAttribute("numberInCart", numberInCart);
+				int quantityInCart = cartListService.findAllByAccountId(ckac.getAcid()).stream()
+						.reduce(0, (quantity, i) -> quantity += i.getQuantity(), Integer::sum);
+				session.setAttribute("numberInCart", quantityInCart);
 
 				//
 				if (session.getAttribute("goToCart") != null) {
@@ -154,13 +165,13 @@ public class AccountController {
 				}
 
 			} else {
-				mav.getModel().put("entryFalse", "wrong");
-				mav.setViewName("/register");
+				redirAttr.addFlashAttribute("entryFalse", "wrong");
+				mav.setViewName("redirect:/register");
 			}
 
 		} else {
-			mav.getModel().put("entryFalse", "wrong");
-			mav.setViewName("/register");
+			redirAttr.addFlashAttribute("entryFalse", "wrong");
+			mav.setViewName("redirect:/register");
 		}
 
 		return mav;
@@ -177,21 +188,27 @@ public class AccountController {
 
 	@PostMapping(value = "/admin")
 	public ModelAndView admin(@ModelAttribute(name = "adminBean") AdminBean adminBean, ModelAndView mav,
-			HttpSession session) {
+			HttpSession session, RedirectAttributes redirectAttr) {
+		
 		String ad = adminBean.getAc();
 		String pw = adminBean.getPw();
 		String rank = adminBean.getRank();
 		AdminBean ckad = addao.findByAc(ad);
-		if (ckad.getPw().equals(pw)) {
-			mav.setViewName("/index_b");
+		
+		if (ckad != null && ckad.getPw().equals(pw)) {
+			
 			session.setAttribute("adminId", ckad.getId());
 			session.setAttribute("rank", rank);
 			session.setAttribute("ad", ad);
 			session.setAttribute("adstatus", "ok");
-
-		} else {
-			mav.setViewName("/register");
-		}
+			mav.setViewName("redirect:/index_b");
+			
+			return mav;
+		} 
+		
+		mav.setViewName("redirect:/admin/login");
+		redirectAttr.addFlashAttribute("entryFalse", "wrong");
+		
 		return mav;
 	}
 
@@ -201,7 +218,8 @@ public class AccountController {
 		session.removeAttribute("adminId");
 		session.removeAttribute("adstatus");
 		session.removeAttribute("rank");
-		mav.setViewName("redirect:/index");
+		mav.setViewName("redirect:/admin/login");
+		
 		return mav;
 	}
 
@@ -223,6 +241,11 @@ public class AccountController {
 	@GetMapping("/password")
 	public ModelAndView password(HttpSession session, ModelAndView mv) {
 
+		if (session.getAttribute("status") == null) {
+			mv.setViewName("redirect:/register");
+			return mv;
+		}
+		
 		Integer accountId = (Integer) session.getAttribute("accountId");
 		AccountBean account = dao.findById(accountId);
 		String passWord = account.getPw();
@@ -234,7 +257,13 @@ public class AccountController {
 
 	@PostMapping("/cpassword")
 	public ModelAndView cpassword(ModelAndView mav, @RequestParam(name = "id") Integer id,
-			@RequestParam(name = "pwd") String pw, @RequestParam(name = "npwd") String npw) {
+			@RequestParam(name = "pwd") String pw, @RequestParam(name = "npwd") String npw, HttpSession session) {
+		
+		if (session.getAttribute("status") == null) {
+			mav.setViewName("redirect:/register");
+			return mav;
+		}
+		
 		AccountBean ac = dao.findById(id);
 		String oldpw = ac.getPw();
 		System.out.println(oldpw);
@@ -256,20 +285,25 @@ public class AccountController {
 
 	@GetMapping("/account")
 	public ModelAndView account(ModelAndView mav, @RequestParam(name = "id") Integer id, HttpSession session) {
-
 		if (session.getAttribute("status") != null) {
 			AccountBean AccountBean = dao.findById(id);
 			mav.getModel().put("AccountBean", AccountBean);
 			mav.setViewName("account");
 			return mav;
 		} else {
-			mav.setViewName("register");
+			mav.setViewName("redirect:/register");
 			return mav;
 		}
 	}
 
 	@RequestMapping("/updateAc")
-	public ModelAndView updateAc(ModelAndView mav, @RequestParam(name = "id") Integer id) {
+	public ModelAndView updateAc(ModelAndView mav, @RequestParam(name = "id") Integer id, HttpSession session) {
+		
+		if (session.getAttribute("status") == null) {
+			mav.setViewName("redirect:/register");
+			return mav;
+		}
+		
 		AccountBean AccountBean = dao.findById(id);
 		productImage = AccountBean.getCoverImage();
 		mav.getModel().put("AccountBean", AccountBean);
@@ -278,8 +312,13 @@ public class AccountController {
 	}
 
 	@PostMapping(value = "/updateAc")
-	public ModelAndView updateAc(ModelAndView mav, @ModelAttribute(name = "AccountBean") AccountBean AccountBean) {
+	public ModelAndView updateAc(ModelAndView mav, @ModelAttribute(name = "AccountBean") AccountBean AccountBean, HttpSession session) {
 
+		if (session.getAttribute("status") == null) {
+			mav.setViewName("redirect:/register");
+			return mav;
+		}
+		
 		try {
 			Blob blob;
 			if (AccountBean.getImage().isEmpty()) {
@@ -391,6 +430,14 @@ public class AccountController {
 //		account.put("password", accountPassword);
 
 		return account;
+	}
+	
+	@GetMapping("/checkAccountDuplicate")
+	public ResponseEntity<Boolean> checkAccountDuplicate(@RequestParam(name = "accName") String accName) {
+
+		AccountBean duplicateAcc = dao.findByAc(accName);
+		
+		return ResponseEntity.ok(duplicateAcc != null);
 	}
 
 }

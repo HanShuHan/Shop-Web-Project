@@ -13,14 +13,20 @@ import com.eeit138.webshop.model.ProductBean;
 @Repository
 public interface CartListRepository extends JpaRepository<CartList, Integer>{
 
-	public CartList findByProduct(ProductBean product);
+	CartList findByProduct(ProductBean product);
 	
-	public List<CartList> findAllByProduct(ProductBean product);
+	List<CartList> findAllByProduct(ProductBean product);
+	
+	CartList findByAccountId(Integer accountId);
+	
+	CartList findByAccountIdAndProductId(Integer accountId, Integer productId);
 	
 	@Query(value = "select * from Cart_Lists where product_id = :productId and account_id = :accountId", nativeQuery = true)
 	CartList findByProductIdAndAccountId(@Param(value = "productId") Integer productId, @Param(value = "accountId") Integer userId);
 
-	List<CartList> findByAccountId(Integer id);
+	List<CartList> findAllByAccountId(Integer accountId);
 	
 	void deleteByAccountId(Integer id);
+	
+	long countByAccountId(Integer accountId);
 }

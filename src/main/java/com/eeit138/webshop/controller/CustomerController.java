@@ -2,6 +2,9 @@ package com.eeit138.webshop.controller;
 
 
 import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -28,8 +31,31 @@ public class CustomerController {
 	@Autowired
 	private AccountService dao;
 	
+	@GetMapping("/viewReply")
+	public ModelAndView viewReply(ModelAndView mav, @RequestParam(name = "id") Integer id, HttpSession session) {
+		
+		if (session.getAttribute("status") == null) {
+			mav.setViewName("redirect:/register");
+			return mav;
+		}
+		
+		List<CustomerBean> replys = service.findAllByAcidOrderByAddedAsc(id);
+		
+		mav.getModel().put("newReply", new CustomerBean());
+		mav.getModel().put("replys", replys);
+		mav.setViewName("account_contact");
+		
+		return mav;
+	}
+	
 	@PostMapping(value="/cusReply")
-	public ModelAndView cusReply(ModelAndView mav,@ModelAttribute(name = "newReply") CustomerBean newReply, @RequestParam(name = "id") Integer id) {
+	public ModelAndView cusReply(ModelAndView mav,@ModelAttribute(name = "newReply") CustomerBean newReply, @RequestParam(name = "id") Integer id, HttpSession session) {
+		
+		if (session.getAttribute("status") == null) {
+			mav.setViewName("redirect:/register");
+			return mav;
+		}
+		
 		newReply.setId(newReply.getId() + 1);
 		newReply.setAdded(new Date());
 		service.save(newReply);
@@ -52,9 +78,6 @@ public class CustomerController {
 		
 		return mav;
 	}
-	
-	
-	
 	
 	
 	@PostMapping("/b_reply_single")

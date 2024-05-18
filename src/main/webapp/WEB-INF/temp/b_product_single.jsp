@@ -145,7 +145,7 @@
 									<div class="container border">
 										<b>名稱: <span style="color: blue;">${product.name}</span></b>
 										<a href='<c:url value="/editProduct?productId=${product.productId}"/>'>
-											<button class="btn btn-success" style="position: absolute; right: 150px;">修改</button>
+											<button class="btn btn-warning" style="position: absolute; right: 150px;">修改</button>
 										</a>
 										<a href="${contextRoot}/bprindex">
 											<button class="btn btn-secondary" style="position: absolute; right: 90px;">返回</button>

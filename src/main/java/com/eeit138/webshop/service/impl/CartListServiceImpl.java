@@ -48,11 +48,29 @@ public class CartListServiceImpl implements CartListService {
 	}
 
 	@Override
+	public CartList findByAccountIdAndProductId(Integer accountId, Integer productId) {
+		// TODO Auto-generated method stub
+		return cartListDao.findByAccountIdAndProductId(accountId, productId);
+	}
+	
+	@Override
+	public long countByAccountId(Integer accountId) {
+		// TODO Auto-generated method stub
+		return cartListDao.countByAccountId(accountId);
+	}
+	
+	@Override
 	public CartList findById(Integer id) {
 		// TODO Auto-generated method stub
 		return cartListDao.findById(id).get();
 	}
-
+	
+	@Override
+	public CartList findByAccountId(Integer accountId) {
+		// TODO Auto-generated method stub
+		return cartListDao.findByAccountId(accountId);
+	}
+	
 	@Override
 	public void deleteById(Integer id) {
 		// TODO Auto-generated method stub
@@ -71,9 +89,9 @@ public class CartListServiceImpl implements CartListService {
 	}
 
 	@Override
-	public List<CartList> findByAccountId(Integer id) {
+	public List<CartList> findAllByAccountId(Integer accountId) {
 		// TODO Auto-generated method stub
-		return cartListDao.findByAccountId(id);
+		return cartListDao.findAllByAccountId(accountId);
 	}
 
 }

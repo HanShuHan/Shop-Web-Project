@@ -79,7 +79,7 @@ public class ReceiptController {
 			HttpServletRequest request, HttpSession session) {
 		int accountId = (Integer)request.getSession().getAttribute("accountId");
 		 
-		List<CartList> CartLists = cartListService.findByAccountId(accountId);
+		List<CartList> CartLists = cartListService.findAllByAccountId(accountId);
 		Date orderid = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		String odid = "ajen"+sdf.format(orderid);
@@ -289,6 +289,12 @@ public class ReceiptController {
 	public ModelAndView account_order(ModelAndView mv,
 			@RequestParam(name="id")int id,
 			HttpServletRequest request, HttpSession session) {
+		
+		if (session.getAttribute("status") == null) {
+			mv.setViewName("redirect:/register");
+			return mv;
+		}
+		
 		AccountBean ad = accountService.findById(id);
 		List<OrderBean> ods = orderService.findByAccountIdOrderByMerchantTradeDateDesc(id);
 		mv.getModel().put("OrderBeans",ods);

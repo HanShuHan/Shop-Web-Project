@@ -13,6 +13,8 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -45,12 +47,11 @@ public class CustomerBean implements Serializable {
 	private String message;
 	
 	@Column(name="title")
-	private String title;
+	private String title = "1";
 	
 	@Column(name="replymessage")
 	private String replymessage;
-
-
+	
 	public CustomerBean() {
 	}
 	

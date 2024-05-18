@@ -341,7 +341,7 @@
 				<div class="col-lg-4 footer-grid_section_w3layouts">
 					<p class="col-md-10">
 						© 2022 A-Jen Sport. All rights reserved | Design by <a
-							href="https://www.ispan.com.tw/longterm/JJEEITT">資展國際
+							href="https://www.ispan.com.tw/longterm/JJEEITT" target="_blank">資展國際
 							EEIT138.</a>
 					</p>
 				</div>

@@ -4,6 +4,7 @@ import java.sql.Blob;
 import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.sql.rowset.serial.SerialBlob;
 import javax.validation.Valid;
 
@@ -41,7 +42,11 @@ public class DiscountsPageController {
 	}
 	//所有列表
 	@GetMapping("/viewDiscounts")
-	public String viewDiscounts() {
+	public String viewDiscounts(HttpSession session) {
+		if (session.getAttribute("ad") == null) {
+			return "redirect:/admin/login";
+		}
+		
 		return "b_discount_index";
 	}
 	

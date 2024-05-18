@@ -179,7 +179,8 @@ $(function() {
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <input type="submit" class="profile-edit-btn btn btn-success" name="btnAddMore" value="完成"/>
+                        <input type="submit" class="profile-edit-btn btn btn-success" value="完成"/>
+                        <a class="btn btn-warning" href="${contextRoot}/account?id=${AccountBean.acid}">取消</a>
                     </div>
                 </div>
                 <div class="row">

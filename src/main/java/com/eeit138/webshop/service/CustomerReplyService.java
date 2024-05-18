@@ -61,6 +61,11 @@ public class CustomerReplyService {
 		return replys;
 	}
 	
+	public List<CustomerBean> findAllByAcidOrderByAddedAsc(Integer acid){
+		List<CustomerBean> replys = dao.findAllByAccountidOrderByAddedAsc(acid);
+		return replys;
+	}
+	
 	public void savereply(int acid, int id) {
 		dao.savereply(acid, id);
 	};

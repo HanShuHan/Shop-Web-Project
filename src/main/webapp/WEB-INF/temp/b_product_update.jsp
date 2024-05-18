@@ -204,7 +204,7 @@
 											<img width="200" src='<c:url value="/showImage1/${product.productId}"/>'
 												alt="" id="big-image">
 										</div>
-										<button type="submit" class="btn btn-warning">修改</button>
+										<button type="submit" class="btn btn-success">完成</button>
 										<a href="${contextRoot}/onePR?id=${product.productId}">
 										<button type="button" class="btn btn-secondary">取消</button></a>
 										<form:input type="hidden" path="productId" />

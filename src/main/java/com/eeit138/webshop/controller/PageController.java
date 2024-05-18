@@ -258,8 +258,9 @@ public class PageController {
 		mv.getModel().put("categoriesList", categoryService.findAll());			
 		if(request.getSession().getAttribute("accountId")!=null) {
 			int accountId = (Integer)request.getSession().getAttribute("accountId");
-			int numberInCart = cartListService.findByAccountId(accountId).size();
-			request.getSession().setAttribute("numberInCart", numberInCart);
+			int quantityInCart = cartListService.findAllByAccountId(accountId).stream()
+					.reduce(0, (quantity, i) -> quantity += i.getQuantity(), Integer::sum);
+			request.getSession().setAttribute("numberInCart", quantityInCart);
 		} 		
 		return mv;
 	}	
@@ -302,6 +303,14 @@ public class PageController {
 		mv.getModel().put("categories", categoryService.findAll());
 		
 		return mv;
+	}
+	
+	@GetMapping("/admin/login")
+	public ModelAndView adminLogin(ModelAndView mav, HttpServletRequest request) {	
+		mav.getModel().put("adminBean", new AdminBean());
+		mav.setViewName("admin_login");
+		
+		return mav;
 	}
 	
 	@GetMapping("/register")
@@ -352,7 +361,12 @@ public class PageController {
 	}
 	
 	@GetMapping("/badindex")
-	public ModelAndView b_admin_index(ModelAndView mav, @RequestParam(name="p",defaultValue = "1")Integer pageNumber) {
+	public ModelAndView b_admin_index(HttpSession session, ModelAndView mav, @RequestParam(name="p",defaultValue = "1")Integer pageNumber) {
+		if (session.getAttribute("ad") == null) {
+			mav.setViewName("redirect:/admin/login");
+			return mav;
+		}
+		
 		mav.setViewName("b_admin_index");				
 		Page<AdminBean> page = adminService.findByPage(pageNumber);		
 		mav.getModel().put("page", page);	
@@ -368,7 +382,12 @@ public class PageController {
 	}
 	
 	@GetMapping("/barindex")
-	public ModelAndView b_article_index(ModelAndView mav, HttpServletRequest request) {
+	public ModelAndView b_article_index(HttpSession session, ModelAndView mav, HttpServletRequest request) {
+		if (session.getAttribute("ad") == null) {
+			mav.setViewName("redirect:/admin/login");
+			return mav;
+		}
+		
 		mav.setViewName("b_article_index");				
 		List<Post> posts = postService.findAll();		
 		mav.getModel().put("posts", posts);	
@@ -391,7 +410,12 @@ public class PageController {
 	
 	
 	@GetMapping("/bprindex")
-	public ModelAndView b_product_index(ModelAndView mv, HttpServletRequest request) {
+	public ModelAndView b_product_index(HttpSession session, ModelAndView mv, HttpServletRequest request) {
+		
+		if (session.getAttribute("ad") == null) {
+			mv.setViewName("redirect:/admin/login");
+			return mv;
+		}
 		
 //		List<ProductBean> products = new LinkedList<ProductBean>();
 		List<ProductBean> allProducts;
@@ -435,7 +459,12 @@ public class PageController {
 	}
 	
 	@GetMapping("/borindex")
-	public ModelAndView borindex(ModelAndView mv, HttpServletRequest request) {
+	public ModelAndView borindex(HttpSession session, ModelAndView mv, HttpServletRequest request) {
+		if (session.getAttribute("ad") == null) {
+			mv.setViewName("redirect:/admin/login");
+			return mv;
+		}
+		
 		List<OrderBean> OrderBeans = orderService.findAll();
 		mv.getModel().put("OrderBeans", OrderBeans);		
 		mv.setViewName("/b_order_index");
@@ -464,10 +493,16 @@ public class PageController {
 	}
 	
 	@GetMapping("/breindex")
-	public ModelAndView b_reply_index(ModelAndView mv, HttpServletRequest request) {
+	public ModelAndView b_reply_index(HttpSession session, ModelAndView mv, HttpServletRequest request) {
+		if (session.getAttribute("ad") == null) {
+			mv.setViewName("redirect:/admin/login");
+			return mv;
+		}
+		
 		List<CustomerBean> replys = customerReplyService.findAll();
 		
-		mv.getModel().put("replys", replys);		
+
+		mv.getModel().put("replys", replys);
 		mv.setViewName("/b_reply_index");
 		
 		return mv;
@@ -491,17 +526,6 @@ public class PageController {
 		return mv;
 	}
 	
-	@GetMapping("/viewReply")
-	public ModelAndView viewReply(ModelAndView mav, @RequestParam(name = "id") Integer id) {
-		List<CustomerBean> replys = customerReplyService.findByAcidOrderByAddedDesc(id);
-		
-		mav.getModel().put("newReply", new CustomerBean());
-		mav.getModel().put("replys", replys);
-		mav.setViewName("account_contact");
-		
-		return mav;
-	}
-	
 	@PostMapping("/couponck")
 	public ModelAndView couponck(ModelAndView mav, @RequestParam(name = "couponck")String couponck, HttpSession se) {
 		if(couponck.equals(discountService.findFirstByCouponOnOff(1).getCouponName())) {
@@ -515,7 +539,11 @@ public class PageController {
 	}
 	
 	@GetMapping("/index_b")
-	public String index_b() {
+	public String index_b(HttpSession session) {
+		if (session.getAttribute("ad") == null) {
+			return "redirect:/admin/login";
+		}
+		
 		return "index_b";
 	}
 	@GetMapping("/paypage")

@@ -54,10 +54,10 @@ $(function() {
 		        data: product_json_object,
 		        dataType: "json",
 		        success: function(result) {
-					if(result >= 0) {
+					//if(result >= 0) {
 						// 購物車網頁數量，顯示更新
 						$("#show-number-in-cart").text(result)
-					}
+					//}
 				}
 			})
 		}

@@ -130,7 +130,7 @@ src="http://cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
 										<table class="table table-striped table-sm" id="table_id">
 											<thead>
 												<tr>
-													<th>問題主旨</th>
+													<th>使用者</th>
 													<th>建立時間</th>
 													<th>回復狀態</th>
 													<th>設定</th>
@@ -139,7 +139,8 @@ src="http://cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
 											<tbody>
 												<c:forEach var="replys" items="${replys}">
 													<tr>
-														<td><a href="${contextRoot}/b_reply_single?id=${replys.id}"><c:out value="${replys.title}"></c:out></a></td>
+														<!-- <td><a href="${contextRoot}/b_reply_single?id=${replys.accountid}"><c:out value="${replys.title}"></c:out></a></td> -->
+														<td><a href="${contextRoot}/b_reply_single?id=${replys.id}"><c:out value="test1231"></c:out></a></td>
 														<td><fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${replys.added}"></fmt:formatDate></td>
 														<td> <c:choose>
 								                        		<c:when test="${replys.replymessage == null}">

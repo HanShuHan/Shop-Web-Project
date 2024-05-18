@@ -149,7 +149,7 @@
 										<br>
 										&nbsp;&nbsp;&nbsp;
 										<button type="submit" name="submit" class="btn btn-primary" >更新</button>
-										<a href="${contextRoot}/barindex"><button type="button" class="btn btn-primary" >返回</button></a>
+										<a href="${contextRoot}/oneAR?id=${post.id}"><button type="button" class="btn btn-primary" >返回</button></a>
 									</form:form>
 								</div>
 							</div>

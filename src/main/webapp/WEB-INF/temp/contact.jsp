@@ -62,19 +62,16 @@
                         <li><a href="${contextRoot}/about">About</a></li>
                         <li><a href="${contextRoot}/blog">Blog</a></li>
 						<li><a href="${contextRoot}/shop">Products</a>
-                            <label for="drop-2" class="toggle">Products</label>
-                            <input type="checkbox" id="drop-2" />
-                            <ul>
-                                <li><a href="${contextRoot}/shop">All</a></li>
-                            	<c:forEach var="category" items="${categoriesList}" varStatus="status">
-	                                <li>
-	                                	<a href="${contextRoot}/shop?type${status.count}=${category.type}">
-	                                		<c:out value="${category.type}"/>
-	                                	</a>
-	                                </li>
-                            	</c:forEach>
-                            </ul>
-						</li>
+							<ul>
+								<li><a href="${contextRoot}/shop">All</a></li>
+								<c:forEach var="category" items="${categoriesList}"
+									varStatus="status">
+									<li><a
+										href="${contextRoot}/shop?type${status.count}=${category.type}">
+											<c:out value="${category.type}" />
+									</a></li>
+								</c:forEach>
+							</ul></li>
 						<li class="active"><a href="${contextRoot}/contact">Contact</a></li>
                         <li>
 						<c:choose>
@@ -181,9 +178,11 @@
         <div class="container">
             <div class="row footer-top">
                 <div class="col-lg-4 footer-grid_section_w3layouts">
-                    <p class="col-md-10">© 2022 A-Jen Sport. All rights reserved | Design by
-                            <a href="https://www.ispan.com.tw/longterm/JJEEITT">資展國際 EEIT138.</a>
-                        </p>                   
+                    <p class="col-md-10">
+						© 2022 A-Jen Sport. All rights reserved | Design by <a
+							href="https://www.ispan.com.tw/longterm/JJEEITT" target="_blank">資展國際
+							EEIT138.</a>
+					</p>                 
                 </div>
             </div>
         </div>

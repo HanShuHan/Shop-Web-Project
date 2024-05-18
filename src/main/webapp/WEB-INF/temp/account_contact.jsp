@@ -135,79 +135,93 @@
 	<!--當前位址提示-->
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item"><a href="${contextRoot}/">Home</a></li>
-		<li class="breadcrumb-item active">聯絡我們</li>
+		<li class="breadcrumb-item active">聊天記錄</li>
 	</ol>
 	<!--當前位址提示 -->
 	<!-- 聯絡我主區塊 -->
 	<section class="ab-info-main py-md-5">
 		<div class="container py-md-3">
-			<h3 class="tittle text-center mb-lg-5 mb-3">--聯絡我們--</h3>
-			<div class="speak px-lg-5">
-				<div class="single-form-left">
-					<!-- contact form grid -->
-					<div class="contact-single">
-						<h3>
-							<span class="sub-tittle"></span>留下您的留言
-						</h3>
-						<form:form class="form"
-							action="${contextRoot}/cusReply?id=${sessionScope.accountId}"
-							modelAttribute="newReply" method="post">
-							<div class="form-group">
-								<div class="col-sm-6 form-group p-0">
-									<label for="contactusername">主旨</label>
-									<form:input path="title" type="text"
-										class="form-control border" required="required"></form:input>
-								</div>
-								<label for="contactcomment">內容：</label>
-								<form:textarea path="message" class="form-control border"
-									rows="5" required="required"></form:textarea>
-							</div>
-							<form:input type="hidden" path="accountid"
-								value="${sessionScope.accountId}"></form:input>
-							<button type="submit" class="mt-3 btn btn-success btn-block py-3">送出</button>
-						</form:form>
-					</div>
-					<!--  //contact form grid ends here -->
-				</div>
-				<c:forEach var="reply" items="${replys}">
-					<div class="media py-5">
 
-						<img width="80"
-							src='<c:url value="/acimage/${sessionScope.accountId}"/>'
-							class="mr-3 img-fluid rounded-circle" alt="image">
-						<div class="media-body">
-							<h6 class="mt-0">${sessionScope.ac}</h6>
-							<h5 class="mt-0">${reply.title}</h5>
+			<h3 class="tittle text-center mb-lg-5 mb-3">--聊天記錄--</h3>
+			<div class="speak px-lg-5 border overflow-auto" style="height: 70vh">
+
+				<c:forEach var="reply" items="${replys}">
+					<div class=" media py-5 ">
+
+						<div class="align-items-top">
+							<img width="80"
+								src='<c:url value="/acimage/${sessionScope.accountId}"/>'
+								class="mr-3 img-fluid rounded-circle" alt="image">
+						</div>
+
+						<div class="  media-body ">
 							<span class="mt-2">${reply.message}</span>
 							<p>
 								送出時間：
 								<fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss"
 									value="${reply.added}"></fmt:formatDate>
 							</p>
-							<div class="media mt-5">
-								<div class="media-body">
-								<h6 class="mt-0">客服人員</h6>
-									<h5 class="mt-0">${reply.title}</h5>
-									<c:choose>
-										<c:when test="${reply.replymessage == null}">
-											<p class="mt-2">尚未回覆</p>
-										</c:when>
-										<c:otherwise>
-											<span class="mt-2">${reply.replymessage}</span>
-											<p class="mt-2">
-												回復於：
-												<fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss"
-													value="${reply.replyadded}"></fmt:formatDate>
-											</p>
-										</c:otherwise>
-									</c:choose>
-								</div>
-							</div>
 						</div>
+
 					</div>
+
+					<c:if test="${not empty reply.replymessage}">
+					
+						<div class="media py-5 align-items-center float-right">
+
+							<div class="media-body align-items-center">
+								<span class="mt-2">${reply.replymessage}</span>
+								<p class="mt-2">
+									回復於：
+									<fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss"
+										value="${reply.replyadded}"></fmt:formatDate>
+								</p>
+							</div>
+
+							<div class="align-items-top">
+								<img width="80"
+									src="${contextRoot}/images/custoner_service_icon.jpeg"
+									class="img-fluid rounded-circle" alt="image">
+							</div>
+
+						</div>
+						
+					</c:if>
+
 				</c:forEach>
 			</div>
+
+			<div class=" media py-5 justify-content-center">
+				<!-- contact form grid -->
+				<div class="contact-single w-75">
+					<h3 class="text-align-center">
+						<span class="sub-tittle"></span>留下您的留言
+					</h3>
+					<form:form class="form"
+						action="${contextRoot}/cusReply?id=${sessionScope.accountId}"
+						modelAttribute="newReply" method="post">
+						<div class="form-group">
+							<!-- 
+								<div class="col-sm-6 form-group p-0">
+									<label for="contactusername">主旨</label>
+									<form:input path="title" type="text"
+										class="form-control border" required="required"></form:input>
+								</div>
+								 -->
+							<!--  <label for="contactcomment">內容：</label> -->
+							<form:textarea path="message" class="form-control border"
+								rows="3" required="required"></form:textarea>
+						</div>
+						<form:input type="hidden" path="accountid"
+							value="${sessionScope.accountId}"></form:input>
+						<button type="submit" class="mt-3 btn btn-success btn-block py-3">送出</button>
+					</form:form>
+				</div>
+				<!--  //contact form grid ends here -->
+			</div>
+
 		</div>
+
 	</section>
 	<!-- 聯絡我主區塊 -->
 	<!-- 標底 -->
@@ -217,7 +231,7 @@
 				<div class="col-lg-4 footer-grid_section_w3layouts">
 					<p class="col-md-10">
 						© 2022 A-Jen Sport. All rights reserved | Design by <a
-							href="https://www.ispan.com.tw/longterm/JJEEITT">資展國際
+							href="https://www.ispan.com.tw/longterm/JJEEITT" target="_blank">資展國際
 							EEIT138.</a>
 					</p>
 				</div>

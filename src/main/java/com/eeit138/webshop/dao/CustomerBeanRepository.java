@@ -14,6 +14,8 @@ public interface CustomerBeanRepository extends JpaRepository<CustomerBean, Inte
 	@Query(value = "select * from customer_reply where fk_account_acid = :acid Order By Added Desc ", nativeQuery = true)
 	public List<CustomerBean> findByAcidOrderByAddedDesc(@Param(value = "acid")int acid);
 	
+	public List<CustomerBean> findAllByAccountidOrderByAddedAsc(int acid);
+	
 	@Query(value = "UPDATE customer_reply SET fk_account_acid = :acid WHERE id = :id", nativeQuery = true)
 	public void savereply(@Param(value = "acid")int acid, @Param(value = "id")int id);
 }

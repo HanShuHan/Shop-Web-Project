@@ -1,7 +1,10 @@
 $(function() {
+	if($("body").data("is_register") === true) {
+		$("#nav-admin-tab").click()
+	}
 	if($("body").data("entry_false") == "wrong") {
 		$("#loginUserPassword").val("")
-		alert("帳號或密碼錯誤!")
+		setTimeout(() => alert("帳號或密碼錯誤!"), 0);
 	}
 	
 //    $("#nav-home-tab").on("click", function() {
@@ -85,16 +88,16 @@ $(function() {
 		console.log(randomNum)
 		$("#accountR").val("new" + randomNum)
 		$("#pwd").val("new123456!")
-		$("#pwdcheck").val("new123456")
+		$("#pwdcheck").val("new123456!")
 		$("#aname").val("王旺旺")
 		$("#mail").val(randomNum + "@gamil.com")
 		document.getElementById("register-form").submit()
 	})
 	//
 	$(".auto-login-btns-admin").on("click", function() {
-		
 		let num = $(this).data("num")
 		let web_url = "http://localhost:8080/A-Jen/adminAutoLoginRequest?num=" + num
+		
 		$.ajax({
 			url: web_url,
 			method: "get",
@@ -117,7 +120,7 @@ $(function() {
 			contentType: "application/text; charset=UTF-8",
 			success: function(result) {
 				$("#accountL").val(result.name)
-//				$("#loginUserPassword_2").val(result.password)
+				$("#loginUserPassword_2").val(result.password)
 //				document.getElementById("admin-log-in-form").submit()
 			}
 		})

@@ -38,21 +38,22 @@
 		window.scrollTo(0, 1);
 	}
 </script>
- <!-- jQuery -->
+<!-- jQuery -->
 <script src="${contextRoot}/js/jquery-3.6.0.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="${contextRoot}/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="${contextRoot}/js/adminlte.min.js"></script>
- <script src="${contextRoot}/js/index.js"></script>
+<script src="${contextRoot}/js/index.js"></script>
 <style>
-	.menu {
-		font-size: 20px;
-	}
-		#big-head, #cart-img {
-		width: 20px;
-		height: 20px;
-	}
+.menu {
+	font-size: 20px;
+}
+
+#big-head, #cart-img {
+	width: 20px;
+	height: 20px;
+}
 </style>
 </head>
 <body>
@@ -73,39 +74,37 @@
 					<ul class="menu mt-2">
 						<li class="active"><a href="${contextRoot}/">Home</a></li>
 						<li><a href="${contextRoot}/about">About</a></li>
-                        <li><a href="${contextRoot}/blog">Blog</a></li>
-						<li><a href="${contextRoot}/shop">Products</a>
-                            <label for="drop-2" class="toggle">Products</label>
-                            <input type="checkbox" id="drop-2" />
-                            <ul>
-                                <li><a href="${contextRoot}/shop">All</a></li>
-                            	<c:forEach var="category" items="${categoriesList}" varStatus="status">
-	                                <li>
-	                                	<a href="${contextRoot}/shop?type${status.count}=${category.type}">
-	                                		<c:out value="${category.type}"/>
-	                                	</a>
-	                                </li>
-                            	</c:forEach>
-                            </ul>
+						<li><a href="${contextRoot}/blog">Blog</a></li>
+						<li><a href="${contextRoot}/shop">Products</a> 
+						<label for="drop-2" class="toggle">Products</label> 
+						<input type="checkbox" id="drop-2" />
+							<ul>
+								<li><a href="${contextRoot}/shop">All</a></li>
+								<c:forEach var="category" items="${categoriesList}"
+									varStatus="status">
+									<li>
+										<a href="${contextRoot}/shop?type${status.count}=${category.type}">
+											<c:out value="${category.type}" />
+										</a>
+									</li>
+								</c:forEach>
+							</ul>
 						</li>
 						<li><a href="${contextRoot}/contact">Contact</a></li>
-						<li>
-						<c:choose>
+						<li><c:choose>
 								<c:when test="${sessionScope.accountId == null}">
 									<a href="${contextRoot}/register"> Register/Login </a>
 								</c:when>
 								<c:otherwise>
-									<a href="${contextRoot}/account?id=${sessionScope.accountId}">										
+									<a href="${contextRoot}/account?id=${sessionScope.accountId}">
 										<img id="cart-img" src="${contextRoot}/css/images/member.png"
-										width="9"
-										data-user_id="${sessionScope.accountId}"
-										data-web_url="${pageContext.request.contextPath}">
-										<span><c:out value="${sessionScope.ac}" /></span>
+										width="9" data-user_id="${sessionScope.accountId}"
+										data-web_url="${pageContext.request.contextPath}"> <span><c:out
+												value="${sessionScope.ac}" /></span>
 									</a>
 									<a href="${contextRoot}/logout"><span>|LogOut</span></a>
 								</c:otherwise>
-							</c:choose>
-						</li>
+							</c:choose></li>
 						<li><c:choose>
 								<c:when test="${sessionScope.accountId == null}">
 									<a href="${contextRoot}/register"> <img id="cart-img"
@@ -137,7 +136,8 @@
 			<p>阿珍體育用品</p>
 			<h3 class="mb-2">提供您最實惠的選擇。</h3>
 			<div class="ban-buttons">
-				<a href="${contextRoot}/shop">開始購物</a> <a href="${contextRoot}/about">關於我們</a>
+				<a href="${contextRoot}/shop">開始購物</a> <a
+					href="${contextRoot}/about">關於我們</a>
 			</div>
 		</div>
 		<!--//行銷大橫軸 -->
@@ -177,10 +177,7 @@
 					<div class="bottom-gd row">
 						<div class="icon-gd-info col-md-9">
 							<h3 class="mb-2">優惠碼放送</h3>
-							<p>
-								凡購物輸入代碼即可享優惠。
-								Code:${disc.couponName}
-							</p>
+							<p>凡購物輸入代碼即可享優惠。 Code:${disc.couponName}</p>
 						</div>
 					</div>
 				</div>
@@ -190,25 +187,27 @@
 	<!-- //說明橫幅 -->
 	<!--/活動區塊 -->
 	<section class="ab-info-main py-5">
-        <div class="container py-lg-3">
-            <div class="ab-info-grids">
-                <div id="products" class="row view-group">
-                    <div class="item col-lg-12">
-                        <div class="thumbnail card">
-                            <div class="caption card-body">
-                            	<c:if test="${disf.fixedId != null}">
-	                                <img width="1080" class="img" src='<c:url value="/showImageFixed/${disf.fixedId}"/>'>
-                            	</c:if>
-                            	<c:if test="${disp.percentageId != null}">
-	                                <img width="1080" class="img" src='<c:url value="/showImagePercentage/${disp.percentageId}"/>'>
-                            	</c:if>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+		<div class="container py-lg-3">
+			<div class="ab-info-grids">
+				<div id="products" class="row view-group">
+					<div class="item col-lg-12">
+						<div class="thumbnail card">
+							<div class="caption card-body">
+								<c:if test="${disf.fixedId != null}">
+									<img width="1080" class="img"
+										src='<c:url value="/showImageFixed/${disf.fixedId}"/>'>
+								</c:if>
+								<c:if test="${disp.percentageId != null}">
+									<img width="1080" class="img"
+										src='<c:url value="/showImagePercentage/${disp.percentageId}"/>'>
+								</c:if>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 	<!-- //活動區塊 -->
 	<!--/新商品區塊 -->
 	<section class="about py-5">
@@ -219,12 +218,15 @@
 					<div class="col-md-4 product-men">
 						<div class="product-shoe-info shoe text-center">
 							<div class="men-thumb-item">
-								<a href='<c:url value="/customerProduct/${product.productId}"/>'><img src='<c:url value="/showImage1/${product.productId}"/>'
+								<a href='<c:url value="/customerProduct/${product.productId}"/>'><img
+									src='<c:url value="/showImage1/${product.productId}"/>'
 									class="img-fluid" alt=""></a>
 							</div>
 							<div class="item-info-product">
 								<h4>
-									<a href='<c:url value="/customerProduct/${product.productId}"/>'> <c:out value="${product.name}" />
+									<a
+										href='<c:url value="/customerProduct/${product.productId}"/>'>
+										<c:out value="${product.name}" />
 									</a>
 								</h4>
 
@@ -235,20 +237,23 @@
 										</span>
 									</div>
 								</div>
-								<a href="#" class="add-to-cart" data-product_id="${product.productId}"><span>加入購物車</span></a>
-		                            <c:choose>
-                        		<c:when test="${sessionScope.accountId == null}">
-	                        		<a href="${contextRoot}/register?goToCart=true&productID=${product.productId}"><span>直接購買</span></a>
-                        		</c:when>
-                        		<c:otherwise>
-                        			<a href="#" class="go-to-cart" data-product_id="${product.productId}">
-										<span id="cart-go" data-user_id="${sessionScope.accountId}" data-web_url="${pageContext.request.contextPath}">
-										直接購買
-										</span>
-									</a>
-                        		</c:otherwise>
-                        	</c:choose>
-                        	</div>
+								<a href="#" class="add-to-cart"
+									data-product_id="${product.productId}"><span>加入購物車</span></a>
+								<c:choose>
+									<c:when test="${sessionScope.accountId == null}">
+										<a
+											href="${contextRoot}/register?goToCart=true&productID=${product.productId}"><span>直接購買</span></a>
+									</c:when>
+									<c:otherwise>
+										<a href="#" class="go-to-cart"
+											data-product_id="${product.productId}"> <span
+											id="cart-go" data-user_id="${sessionScope.accountId}"
+											data-web_url="${pageContext.request.contextPath}">
+												直接購買 </span>
+										</a>
+									</c:otherwise>
+								</c:choose>
+							</div>
 						</div>
 					</div>
 				</c:forEach>
@@ -263,7 +268,7 @@
 				<div class="col-lg-4 footer-grid_section_w3layouts">
 					<p class="col-md-10">
 						© 2022 A-Jen Sport. All rights reserved | Design by <a
-							href="https://www.ispan.com.tw/longterm/JJEEITT">資展國際
+							href="https://www.ispan.com.tw/longterm/JJEEITT" target="_blank">資展國際
 							EEIT138.</a>
 					</p>
 				</div>

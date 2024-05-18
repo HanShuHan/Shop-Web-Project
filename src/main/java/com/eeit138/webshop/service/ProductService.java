@@ -21,7 +21,7 @@ public interface ProductService {
 	List<ProductBean> findByTypesAndNameLikeAndPriceBoundariesOrderByPriceAsc(String type1, String type2, String type3, String type4, String nameLike, String priceLowerBound, String priceUpperBound);
 	
 	List<ProductBean> findByTypesAndNameLikeAndPriceBoundariesOrderByPriceDesc(String type1, String type2, String type3, String type4, String nameLike, String priceLowerBound, String priceUpperBound);
-
+	
 	List<ProductBean> findAll();
 	
 	List<ProductBean> findTop9ByOrderByAddedTimeDesc();

@@ -54,22 +54,30 @@ public class CartController {
 		
 		Integer userId = productDto.getUserId();
 		Integer productId = productDto.getId();
-		ProductBean product = productService.findById(productId);
+		CartList item = cartListService.findByAccountIdAndProductId(userId, productId);
 		
-		if(cartListService.findByProductIdAndAccountId(productId, userId) == null) {
+		if (item == null) {
+			item = new CartList();
+			ProductBean product = productService.findById(productId);	
 			
-			CartList cartList = new CartList();
-			cartList.setProductId(productId);
-			cartList.setAccountId(userId);
-			cartList.setProduct(product);
-			cartListService.save(cartList);
-			
-			int numberInCart = cartListService.findByAccountId(userId).size();
-			request.getSession().setAttribute("numberInCart", numberInCart);
-			return numberInCart;
+			item.setProductId(productId);
+			item.setAccountId(userId);
+			item.setProduct(product);	
+		} else {			
+			item.setQuantity(item.getQuantity() + 1);
 		}
 		
-		return -1;
+		cartListService.save(item);
+		
+		int quantityInCart = cartListService.findAllByAccountId(userId).stream()
+				.reduce(0, (quantity, i) -> quantity += i.getQuantity(), Integer::sum);
+		request.getSession().setAttribute("numberInCart", quantityInCart);
+		
+		return quantityInCart;
+//		if(cartListService.findByProductIdAndAccountId(productId, userId) == null) {	
+//		}
+//		
+//		return -1;
 	}
 	
 	@GetMapping("/addToCart")
@@ -87,8 +95,9 @@ public class CartController {
 			cartList.setProduct(product);
 			cartListService.save(cartList);
 			//
-			int numberInCart = cartListService.findByAccountId(userId).size();
-			session.setAttribute("numberInCart", numberInCart);
+			int quantityInCart = cartListService.findAllByAccountId(userId).stream()
+					.reduce(0, (quantity, i) -> quantity += i.getQuantity(), Integer::sum);
+			session.setAttribute("numberInCart", quantityInCart);
 		}
 		
 		return "redirect:/myCartList/accountId/"+ userId;
@@ -97,7 +106,7 @@ public class CartController {
 	@GetMapping("/myCartList/accountId/{id}")
 	public ModelAndView myCartListPage(@PathVariable(name = "id") Integer id, ModelAndView mv) {
 		
-		mv.getModel().put("cartLists", cartListService.findByAccountId(id));
+		mv.getModel().put("cartLists", cartListService.findAllByAccountId(id));
 		mv.getModel().put("OrderDetail", new OrderDetail());
 		mv.setViewName("cart");
 		
@@ -111,7 +120,7 @@ public class CartController {
 //	}
 	@ResponseBody
 	@PostMapping("/updateMyCartList")
-	public int updateMyCartListPage(@RequestBody CartListDto cartListDto) {
+	public int updateMyCartListPage(@RequestBody CartListDto cartListDto, HttpSession session) {
 		
 		// 更改訂單內容數量
 		Integer listId = cartListDto.getId();
@@ -121,7 +130,13 @@ public class CartController {
 		cartList.setQuantity(newQuantity);
 		cartListService.save(cartList);
 		
-		return newQuantity;
+		//
+		int quantityInCart = cartListService.findAllByAccountId((int)session.getAttribute("accountId")).stream()
+				.reduce(0, (quantity, i) -> quantity += i.getQuantity(), Integer::sum);
+		session.setAttribute("numberInCart", quantityInCart);
+		
+		
+		return quantityInCart;
 	}
 	@ResponseBody
 	@PostMapping("/deleteOneCartList")
@@ -133,10 +148,11 @@ public class CartController {
 			cartListService.deleteById(cartListDto.getId());
 			// 傳回購物車的商品數量
 			Integer userId = cartListDto.getUserId();
-			int numberInCart = cartListService.findByAccountId(userId).size();
-			request.getSession().setAttribute("numberInCart", numberInCart);
+			int quantityInCart = cartListService.findAllByAccountId(userId).stream()
+					.reduce(0, (quantity, i) -> quantity += i.getQuantity(), Integer::sum);
+			request.getSession().setAttribute("numberInCart", quantityInCart);
 			
-			return numberInCart;
+			return quantityInCart;
 	}
 	@ModelAttribute(name = "categoriesList")
 	public List<Category> getCategoriesList() {
